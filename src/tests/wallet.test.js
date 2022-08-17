@@ -2,8 +2,10 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import {screen} from '@testing-library/react';
 import App from '../App';
-import {renderWithRouterAndRedux} from './helpers/renderWith';
-import mockData from './helpers/mockData';
+import {renderWithRedux, renderWithRouterAndRedux} from './helpers/renderWith';
+import mockData, {initialState} from './helpers/mockData';
+import Wallet from '../pages/Wallet';
+import user from '../redux/reducers/user';
 
 
 describe('Testando o login', () => {    
@@ -31,6 +33,13 @@ describe('Testando o login', () => {
 
     })
     it('Testando a carteira', () => {
-
+        const {history} = renderWithRedux(<Wallet />, {initialState});
+        const value = screen.getByRole('spinbutton');
+        const description = screen.getByRole('textbox');
+        const button = screen.getByRole('button', { name: /adicionar despesa/i });
+        userEvent.type(value, '10');
+        userEvent.type(description, 'Descrição');
+        userEvent.click(button);
+        screen.logTestingPlaygroundURL();
     })
 })

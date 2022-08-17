@@ -210,3 +210,22 @@ const mockData = {
 };
 
 export default mockData;
+export const initialState = {
+  user: {
+    email: '',
+  },
+  wallet: {
+    currency: 'BRL',
+    field: 0,
+    currencies: Object.keys(mockData),
+    expenses: [{
+      value: "10",
+      description: "abcd",
+      tag: "Alimentação",
+      method: "Dinheiro",
+      currency: "USD",
+      id: 0,
+      exchangeRates: mockData,
+    }],
+  },
+};
