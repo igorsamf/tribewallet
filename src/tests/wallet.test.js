@@ -41,5 +41,6 @@ describe('Testando o login', () => {
         userEvent.type(description, 'Descrição');
         userEvent.click(button);
         screen.logTestingPlaygroundURL();
+        userEvent.click(screen.getByTestId('delete-btn'));
     })
 })

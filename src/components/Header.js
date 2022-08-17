@@ -10,7 +10,7 @@ class Header extends Component {
         <h2 data-testid="email-field">
           {email}
         </h2>
-        <h2 data-testid="total-field">{field}</h2>
+        <h2 data-testid="total-field">{parseFloat(field).toFixed(2)}</h2>
         <h2 data-testid="header-currency-field">{currency}</h2>
       </div>
     );
