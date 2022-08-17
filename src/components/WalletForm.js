@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrencies } from '../redux/actions';
+import { getCurrencies, saveExpenses } from '../redux/actions';
 
 class WalletForm extends Component {
   constructor() {
     super();
     this.state = {
+      id: 0,
       value: 0,
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     };
   }
 
@@ -32,11 +33,38 @@ class WalletForm extends Component {
      this.setState({ [name]: value });
    };
 
+   saveExpenses = async () => {
+     const { id, value, description, tag, method, currency } = this.state;
+     const { dispatchAddExpenses } = this.props;
+     const result = await fetch('https://economia.awesomeapi.com.br/json/all')
+       .then((resolve) => resolve.json())
+       .catch((error) => error);
+     const newObj = {
+       value,
+       description,
+       tag,
+       method,
+       currency,
+       id,
+       exchangeRates: result,
+     };
+     dispatchAddExpenses(newObj);
+     this.setState((prevState) => ({
+       id: prevState.id + 1,
+       value: '',
+       description: '',
+       currency: 'USD',
+       method: 'Dinheiro',
+       tag: 'Alimentação',
+     }));
+   };
+
    render() {
-     const { value, description, currency, method, tag } = this.state;
+     const { id, value, description, currency, method, tag } = this.state;
      const { currencies } = this.props;
      return (
        <div>
+         <h2>{id}</h2>
          <label htmlFor="value">
            <input
              name="value"
@@ -107,7 +135,7 @@ class WalletForm extends Component {
            <button
              type="button"
              name="button"
-             onClick={ () => {} }
+             onClick={ this.saveExpenses }
            >
              Adicionar despesa
            </button>
@@ -119,6 +147,7 @@ class WalletForm extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchCurrencies: (currencies) => dispatch(getCurrencies(currencies)),
+  dispatchAddExpenses: (expense) => dispatch(saveExpenses(expense)),
 });
 
 const mapStateToProps = (store) => ({
@@ -128,6 +157,7 @@ const mapStateToProps = (store) => ({
 WalletForm.propTypes = {
   dispatchCurrencies: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dispatchAddExpenses: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);
