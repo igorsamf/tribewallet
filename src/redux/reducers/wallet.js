@@ -4,6 +4,7 @@ const initialState = {
   currency: 'BRL',
   field: 0,
   currencies: [],
+  expenses: [],
 };
 
 const wallet = (store = initialState, action) => {
@@ -17,6 +18,11 @@ const wallet = (store = initialState, action) => {
   default:
     return { ...store };
   }
+//   case GET_EXPENSE:
+//     return{
+//       ...state,
+//       expenses: [...state.expenses, action.payload]
+//     }
 };
 
 export default wallet;

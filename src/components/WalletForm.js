@@ -103,6 +103,15 @@ class WalletForm extends Component {
              <option>Saúde</option>
            </select>
          </label>
+         <div>
+           <button
+             type="button"
+             name="button"
+             onClick={ () => {} }
+           >
+             Adicionar despesa
+           </button>
+         </div>
        </div>
      );
    }
